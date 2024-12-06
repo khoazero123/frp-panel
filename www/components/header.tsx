@@ -6,14 +6,21 @@ import { getUserInfo } from '@/api/user'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { getPlatformInfo } from '@/api/platform'
+import { useTranslation } from 'react-i18next'
+import { LanguageSwitcher } from './language-switcher'
 
 export const Header = () => {
-  return (<></>)
+  return (
+    <div className="flex mr-auto justify-end items-center gap-2">
+      <LanguageSwitcher />
+    </div>
+  )
 }
 
 export const RegisterAndLogin = () => {
   const router = useRouter()
   const userInfo = useStore($userInfo)
+  const { t } = useTranslation()
 
   const platformInfo = useQuery({
     queryKey: ['platformInfo'],
@@ -37,12 +44,12 @@ export const RegisterAndLogin = () => {
     <>
       {!userInfo && (
         <Button variant={'ghost'} onClick={() => router.push('/login')}>
-          登录
+          {t('common.login')}
         </Button>
       )}
       {!userInfo && (
         <Button variant={'ghost'} onClick={() => router.push('/register')}>
-          注册
+          {t('common.register')}
         </Button>
       )}
     </>

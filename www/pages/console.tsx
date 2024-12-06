@@ -12,12 +12,14 @@ import { ServerSelector } from '@/components/base/server-selector'
 import LoadingCircle from '@/components/base/status'
 import { ClientStatus } from '@/lib/pb/api_master'
 import { useSearchParams } from 'next/navigation'
+import { useTranslation } from 'react-i18next';
 
 const TerminalComponent = dynamic(() => import('@/components/base/read-write-xterm'), {
   ssr: false
 })
 
 export default function ConsolePage() {
+  const { t } = useTranslation();
   const [clientID, setClientID] = useState<string | undefined>(undefined)
   const [clear, setClear] = useState<number>(0)
   const [enabled, setEnabled] = useState<boolean>(false)
@@ -78,25 +80,25 @@ export default function ConsolePage() {
                   if (enabled) { setEnabled(false) }
                   if (timeoutID) { clearTimeout(timeoutID) }
                   setTimeoutID(setTimeout(() => { setEnabled(true) }, 10))
-                }}>连接</Button>
+                }}>{t('common.connect')}</Button>
               <Button onClick={() => {
                 setClear(Math.random());
                 getClientsStatus({ clientIds: [clientID!], clientType: clientType })
-              }}>刷新</Button>
+              }}>{t('common.refresh')}</Button>
               <Button variant="destructive" onClick={() => {
                 setEnabled(false)
                 setClear(Math.random());
-              }}>断开</Button>
+              }}>{t('common.disconnect')}</Button>
               <Button
               disabled={clientID === undefined || clientType === undefined}
               onClick={() => window.open(`/terminal?clientType=${clientType.toString()}&clientID=${clientID}`)}>
-                独立窗口
+                {t('common.newWindow')}
               </Button>
               <BaseSelector
                 dataList={[{ value: ClientType.FRPC.toString(), label: "frpc" }, { value: ClientType.FRPS.toString(), label: "frps" }]}
                 setValue={(value) => { if (value === ClientType.FRPC.toString()) { setClientType(ClientType.FRPC) } else { setClientType(ClientType.FRPS) } }}
                 value={clientType.toString()}
-                label="客户端类型"
+                label={t('common.clientType')}
               />
             </div>
             {clientType === ClientType.FRPC && <ClientSelector clientID={clientID} setClientID={setClientID} />}

@@ -4,11 +4,13 @@ import { TbBuildingTunnel } from 'react-icons/tb'
 import { LoginComponent } from '@/components/login'
 import { useRouter } from 'next/router'
 import { Toaster } from '@/components/ui/toaster'
+import { useTranslation } from 'react-i18next';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Login() {
+export default function LoginPage() {
   const router = useRouter()
+  const { t } = useTranslation();
   return (
     <main className={`${inter.className}`}>
       <Providers>
@@ -46,8 +48,8 @@ export default function Login() {
           <div className="lg:p-8 justify-center w-[300px]">
             <div className="flex flex-col justify-center space-y-6 w-[300px]">
               <div className="flex flex-col space-y-2 text-center">
-                <h1 className="text-2xl font-semibold tracking-tight">登录</h1>
-                <p className="text-sm text-muted-foreground">输入您的账号信息</p>
+                <h1 className="text-2xl font-semibold tracking-tight">{t('auth.loginTitle')}</h1>
+                <p className="text-sm text-muted-foreground">{t('auth.inputCredentials')}</p>
               </div>
               <div className="w-full justify-center">
                 <div className="w-[300px]">
